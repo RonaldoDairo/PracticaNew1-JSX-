@@ -26,10 +26,29 @@ const TaskListComponent = () => {
     
     
     
-    const changeCompleted= (id)=>{
-        console.log('TODO: Cambiar estado de una tarea')
-    }
-    
+   function completeTask(task) {
+            console.log('Complete this Task:', task);
+            const index = tasks.indexOf(task);
+            const tempTasks =[...tasks];
+            tempTasks[index].completed = !tempTasks[index].completed;
+      // we update the state of the component and it will update the
+            // Iteration of the tasks in order to show the task updated 
+            setTasks(tempTasks);
+       }  
+       function deleteTask(task) {
+            console.log('Delete this Task:', task);
+            const index = tasks.indexOf(task);
+            const tempTasks =[...tasks];
+            tempTasks.splice(index,1);
+            setTasks(tempTasks);
+       }
+       function addTask(task) {
+        console.log('Delete this Task:', task);
+        const index = tasks.indexOf(task);
+        const tempTasks =[...tasks];
+        tempTasks.push(task);
+        setTasks(tempTasks);
+       }
     return (
         <div>
             <div className='col-12'>
@@ -56,8 +75,11 @@ const TaskListComponent = () => {
                                             return (
                                                 <TaskComponent 
                                                 key={index} 
-                                                task={task}>
-
+                                                task={task}
+                                                complete={completeTask}
+                                                remove={deleteTask}
+                                                >
+                                                
                                                 </TaskComponent>
                                                   )
                                     }
@@ -66,12 +88,11 @@ const TaskListComponent = () => {
                                 </tbody>
                             </table>
                     </div>
-                    <TaskForm></TaskForm>
+                    
             </div>
                
             </div>
-            {/*TODO: Aplicar un for/map para renderizar una lista  */}
-            {/* <TaskComponent task={defaultTask}></TaskComponent> */}
+            <TaskForm add={addTask}></TaskForm>
         </div>
     );
 };

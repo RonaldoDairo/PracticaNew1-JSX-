@@ -36,8 +36,8 @@ function App() {
         {/* <GreetingStyled name="Dairo"></GreetingStyled> */}
       {/* </header> */}
       {/* Gestion de eventos */}
-      <Father></Father>
-      {/* <TaskListComponent></TaskListComponent> */}
+      {/* <Father></Father> */}
+      <TaskListComponent></TaskListComponent>
     </div>
   );
 }
