@@ -6,12 +6,26 @@ import ProfilePage from './pages/profile/ProfilePage';
 import TasksPage from './pages/tasks/TasksPage';
 import TaskDetailPage from './pages/tasks/TaskDetailPage';
 import LoginPage from './pages/auth/LoginPage';
+import StatePage from './pages/home/StatePage';
+
 import NotFoundPage from './pages/404/NotFoundPage';
 import { useEffect } from 'react';
 
 function AppRoutingOne() {
   let logged = false;
 
+  let taskList =[
+   { 
+    id:1,
+    name: 'Task 1',
+    description: 'My Firts Task'
+   },
+   { 
+    id:2,
+    name: 'Task 2',
+    description: 'My Second Task'
+   }
+  ]
 
   useEffect(() => {
     logged = localStorage.getItem('credentials');
@@ -24,27 +38,29 @@ function AppRoutingOne() {
             <Link to='/'>|| HOME |</Link>
             <Link to='/about'>| ABOUT |</Link>
             <Link to='/faqs'>| FAQs |</Link>
+            <Link to='/task/1'>|Task 1 |</Link>
+            <Link to='/task/2'>|Task 2 |</Link>
             <Link to='/NotexistingRoute'>| Not Existing Route |</Link>
             <Link to='/login'>| LOGIN ||</Link>
           </aside>
           <main>
           <Routes>
-                <Route exact path='/' Component={ HomePage }/>
-                <Route path='/login' element={
+                <Route exact path='/' component={ HomePage }/>
+                <Route exact path='/online-state' component={ StatePage }/>
+                <Route path='/login' component={
                   logged ? <Navigate to='/' replace={true}/>: <LoginPage /> 
                 }/>
                 
-                  
                 
-                <Route path='/about' Component={ AboutPage }/>
-                <Route path='/faqs' Component={ AboutPage }/>
-                <Route path='/profile' element={
+                <Route path='/about' component={ AboutPage }/>
+                <Route path='/faqs' component={ AboutPage }/>
+                <Route path='/profile' component={
                   logged ? <ProfilePage /> : <Navigate to='/login' replace={true} />
                 }/>
-                <Route path='/tasks' Component={ TasksPage }/>
-                <Route path='/task/:id' Component={ TaskDetailPage }/>
+                <Route path='/tasks' component={ TasksPage }/>
+                <Route path='/task/:id' component={<TaskDetailPage taskList={taskList} />} />
                 {/* 404 - Page No Found */}
-                <Route path='*' Component={ NotFoundPage }/>
+                <Route path='*' component={ NotFoundPage }/>
           </Routes>
 
           </main>
