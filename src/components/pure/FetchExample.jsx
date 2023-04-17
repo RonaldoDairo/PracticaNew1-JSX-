@@ -1,10 +1,10 @@
 import React,{ useState, useEffect } from 'react';
-import { getAllPagedUsers, getAllUsers, getUserDetails } from '../../services/fecthService';
-import { Height } from '@mui/icons-material';
+import { getAllPagedUsers, getAllUsers, getUserDetails, login } from '../../services/fecthService';
+
 const FetchExample = () => {
     
     const [users, setUsers] = useState([]);
-    const [selectedUser, setSelectedUser] = useState({});
+    const [selectedUser, setSelectedUser] = useState(null);
     const [totalUsers, setTotalUsers] = useState(12);
     const [usersPerPage, setUsersPerPage] = useState(6);
     const [pages, setPages] = useState(2);
@@ -60,8 +60,24 @@ const FetchExample = () => {
             console.table(selectedUser);
           })
     }
+    const authUser = () => {
+
+        login('eve.holt@reqres.in', 'cityslicka')
+            .then((response) => {
+                console.log('TOKEN', response.token);
+                sessionStorage.setItem('token', response.token)
+            })
+            .catch((error) => {
+                alert(`Error while login user: ${error}`)
+            })
+            .finally(() => {
+                console.log('Ended login user. Navigate to Home...');
+            });
+    }
     return (
         <div>
+            {/* Button to simulate login */}
+            <button onClick={authUser}>Auth User</button>
             <h2>
                 Users:
             </h2>
@@ -82,20 +98,21 @@ const FetchExample = () => {
             <button onClick={()=>obtainPageUsers(2)}>
                 2
             </button>
-            <div>
-                <h3>
-                    User Datails
-
-                </h3>
-                { selectedUser && (
-                <div>
-                    <p>Name: {selectedUser.first_name} </p>
-                    <p>Last Name: {selectedUser.last_name} </p>
-                    <p>Email: {selectedUser.last_name} </p>
-                    <img alt='Avatar' src={selectedUser.avatar} style={{height: '50px', width: '50px'}}/>
-
-                </div>
-                )}
+         <div>
+                { selectedUser != null ? 
+                    (
+                        <div>
+                            <h3>
+                                User Details
+                            </h3>
+                            <p>Name: {selectedUser.first_name}</p>
+                            <p>Last Name: {selectedUser.last_name}</p>
+                            <p>Email: {selectedUser.email}</p>
+                            <img alt='Avatar' src={selectedUser.avatar} style={{height: '150px', width:'150px'}} />
+                        </div>
+                    ):
+                    ( <h6>Please click on a User to see its details</h6> )
+                    }
             </div>
 
         </div>
